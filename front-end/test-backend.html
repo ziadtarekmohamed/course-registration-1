@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend Connection Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .log-container {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            font-family: monospace;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .warning {
+            color: orange;
+            font-weight: bold;
+        }
+        .info {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">Backend Connection Test</h1>
+        
+        <div class="row mb-3">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        Connection Log
+                    </div>
+                    <div class="card-body">
+                        <div id="log" class="log-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col">
+                <button id="testConnection" class="btn btn-primary">Test Connection</button>
+                <button id="testCORS" class="btn btn-info ms-2">Test CORS</button>
+                <button id="testGetRooms" class="btn btn-success ms-2">Test Get Rooms</button>
+                <button id="testCreateRoom" class="btn btn-warning ms-2">Test Create Room</button>
+                <button id="clearLog" class="btn btn-secondary ms-2">Clear Log</button>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        Server Status
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Server Connection
+                                <span id="serverStatus" class="badge bg-secondary">Unknown</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                CORS Configuration
+                                <span id="corsStatus" class="badge bg-secondary">Unknown</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                API Access
+                                <span id="apiStatus" class="badge bg-secondary">Unknown</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API endpoint
+        const API_URL = 'http://127.0.0.1:8000/api/v1/rooms/';
+        
+        // DOM elements
+        const logElement = document.getElementById('log');
+        const serverStatusElement = document.getElementById('serverStatus');
+        const corsStatusElement = document.getElementById('corsStatus');
+        const apiStatusElement = document.getElementById('apiStatus');
+        
+        // Log helper functions
+        function log(message, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = type;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logElement.appendChild(entry);
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+        
+        function updateStatus(element, status, message) {
+            element.className = `badge bg-${status}`;
+            element.textContent = message;
+        }
+        
+        // Test server connection
+        document.getElementById('testConnection').addEventListener('click', async () => {
+            log('Testing server connection...');
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'HEAD',
+                    mode: 'no-cors'
+                });
+                
+                log('Server responded!', 'success');
+                updateStatus(serverStatusElement, 'success', 'Connected');
+            } catch (error) {
+                log(`Connection error: ${error.message}`, 'error');
+                updateStatus(serverStatusElement, 'danger', 'Failed');
+            }
+        });
+        
+        // Test CORS
+        document.getElementById('testCORS').addEventListener('click', async () => {
+            log('Testing CORS configuration...');
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'OPTIONS',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok || response.status === 204) {
+                    log('CORS preflight successful!', 'success');
+                    updateStatus(corsStatusElement, 'success', 'Configured');
+                } else {
+                    log(`CORS preflight returned status ${response.status}`, 'warning');
+                    updateStatus(corsStatusElement, 'warning', 'Partial');
+                }
+            } catch (error) {
+                log(`CORS error: ${error.message}`, 'error');
+                updateStatus(corsStatusElement, 'danger', 'Failed');
+            }
+        });
+        
+        // Test GET Rooms
+        document.getElementById('testGetRooms').addEventListener('click', async () => {
+            log('Testing GET rooms endpoint...');
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`Successfully retrieved ${data.length} rooms!`, 'success');
+                    updateStatus(apiStatusElement, 'success', 'Working');
+                    log(`Room data: ${JSON.stringify(data.slice(0, 2))}`, 'info');
+                } else {
+                    const errorText = await response.text();
+                    log(`API returned error ${response.status}: ${errorText}`, 'error');
+                    updateStatus(apiStatusElement, 'danger', 'Error');
+                }
+            } catch (error) {
+                log(`API error: ${error.message}`, 'error');
+                updateStatus(apiStatusElement, 'danger', 'Failed');
+            }
+        });
+        
+        // Test Create Room
+        document.getElementById('testCreateRoom').addEventListener('click', async () => {
+            log('Testing POST room endpoint...');
+            
+            const testRoom = {
+                building: "A",
+                room_number: Math.floor(Math.random() * 900) + 100, // Random room number
+                capacity: 50,
+                type: "Lecture"
+            };
+            
+            log(`Sending test room data: ${JSON.stringify(testRoom)}`, 'info');
+            
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(testRoom)
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`Room created successfully! Response: ${JSON.stringify(data)}`, 'success');
+                } else {
+                    const errorText = await response.text();
+                    log(`Create room failed with status ${response.status}: ${errorText}`, 'error');
+                    
+                    // If it's unauthorized, that could be expected without a token
+                    if (response.status === 401 || response.status === 403) {
+                        log('Auth error is expected without a token. CORS is working!', 'warning');
+                        updateStatus(corsStatusElement, 'success', 'Working');
+                    }
+                }
+            } catch (error) {
+                log(`Create room error: ${error.message}`, 'error');
+            }
+        });
+        
+        // Clear log
+        document.getElementById('clearLog').addEventListener('click', () => {
+            logElement.innerHTML = '';
+            log('Log cleared.', 'info');
+        });
+        
+        // Initial log entry
+        log('Backend connection tester loaded. Click buttons to run tests.', 'info');
+    </script>
+</body>
+</html> 

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule</title>
+    <link rel="stylesheet" href="../styles/Schedule.css">
+    <!-- Debug Script -->
+    <script>
+        console.log('Debug - Schedule page loaded');
+        console.log('localStorage check on page load:');
+        console.log('token:', !!localStorage.getItem('token'));
+        console.log('userId:', localStorage.getItem('userId'));
+        console.log('userRole:', localStorage.getItem('userRole'));
+        console.log('All localStorage keys:', Object.keys(localStorage));
+        
+        // Check if we should be here
+        const debugToken = localStorage.getItem('token');
+        const userRole = localStorage.getItem('userRole');
+        if (!debugToken) {
+            console.error('No token found, redirecting to login');
+            window.location.href = 'Login.html';
+        } else if (userRole !== 'student') {
+            console.error('User is not a student, role found:', userRole);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h1 class="logo">studentIS</h1>
+            <nav>
+                <ul>
+                    <li><a href="StudentDashboard.html"><i class="bi bi-house-door-fill"></i> Dashboard</a></li>
+                    <li><a href="StudentRegistration.html"><i class="bi bi-journal-plus"></i> Course Registration</a></li>
+                    <li><a href="Schedule.html" class="active"><i class="bi bi-calendar-week"></i> Schedule</a></li>
+                    <li>
+                        <a class="logout-link" href="#" id="logoutBtn">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <h1>My Schedule</h1>
+                <div class="semester-selector">
+                    <select id="semester-select">
+                        <option value="fall2023">Fall 2023</option>
+                        <option value="spring2024">Spring 2024</option>
+                        <option value="summer2024">Summer 2024</option>
+                    </select>
+                </div>
+            </header>
+
+            <!-- Info Cards -->
+            <div class="info-cards">
+                <div class="info-card">
+                    <h3>Courses Scheduled</h3>
+                    <p class="number">5</p>
+                </div>
+                <div class="info-card">
+                    <h3>Total Credit Hours</h3>
+                    <p class="number">16</p>
+                </div>
+                <div class="info-card">
+                    <h3>Weekly Class Hours</h3>
+                    <p class="number">22</p>
+                </div>
+            </div>
+
+            <!-- Weekly Schedule Table -->
+            <div class="schedule-container">
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th class="time-header">Time</th>
+                            <th>Sunday</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 7:00 AM Row -->
+                        <tr>
+                            <td class="time-cell">7:00 AM</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        
+                        <!-- 8:00 AM Row -->
+                        <tr>
+                            <td class="time-cell">8:00 AM</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        
+                        <!-- 9:00 AM Row -->
+                        <tr>
+                            <td class="time-cell">9:00 AM</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        
+                        <!-- 10:00 AM Row -->
+                        <tr>
+                            <td class="time-cell">10:00 AM</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        
+                        <!-- 11:00 AM Row -->
+                        <tr>
+                            <td class="time-cell">11:00 AM</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        
+                        <!-- 12:00 PM Row -->
+                        <tr>
+                            <td class="time-cell">12:00 PM</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        
+                        <!-- 1:00 PM Row -->
+                        <tr>
+                            <td class="time-cell">1:00 PM</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        
+                        <!-- 2:00 PM Row -->
+                        <tr>
+                            <td class="time-cell">2:00 PM</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        
+                        <!-- 3:00 PM Row -->
+                        <tr>
+                            <td class="time-cell">3:00 PM</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        
+                        <!-- 4:00 PM Row -->
+                        <tr>
+                            <td class="time-cell">4:00 PM</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        
+                        <!-- 5:00 PM Row -->
+                        <tr>
+                            <td class="time-cell">5:00 PM</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="../scripts/schedule.js"></script>
+  <script src="../scripts/sweetalert-config.js"></script>
+</body>
+</html>

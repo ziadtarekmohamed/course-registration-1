@@ -1,0 +1,125 @@
+.sidebar {
+    background-color: #373B47;
+    color: white;
+    height: 100vh;
+    position: fixed;
+    width: 250px;
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+.nav-link {
+    color: #ffffff80;
+    padding: 8px 16px;
+    margin: 4px 0;
+}
+
+.nav-link:hover {
+    color: white;
+}
+
+.nav-link.active {
+    color: white !important;
+    background-color: transparent !important;
+}
+
+.room-management-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding: 24px;
+    margin-top: 24px;
+}
+
+.add-room-btn {
+    background-color: #373B47;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+}
+
+.add-room-btn:hover {
+    background-color: #4a4f5e;
+    color: white;
+}
+
+.table th {
+    color: #6c757d;
+    font-weight: normal;
+    border-bottom-width: 1px;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.subtitle {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.room-form {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding: 24px;
+    margin-top: 24px;
+}
+
+.btn-primary {
+    background-color: #373B47;
+    border-color: #373B47;
+}
+
+.btn-primary:hover {
+    background-color: #4a4f5e;
+    border-color: #4a4f5e;
+}
+
+.modal-content {
+    border-radius: 12px;
+    border: none;
+}
+
+.modal-header {
+    border-bottom: 1px solid #e9ecef;
+    padding: 16px 24px;
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.form-control:focus {
+    border-color: #373B47;
+    box-shadow: 0 0 0 0.25rem rgba(55, 59, 71, 0.25);
+}
+
+.form-select:focus {
+    border-color: #373B47;
+    box-shadow: 0 0 0 0.25rem rgba(55, 59, 71, 0.25);
+}
+
+/* Dropdown styling */
+.dropdown-menu {
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border: none;
+    padding: 8px 0;
+}
+
+.dropdown-item {
+    padding: 8px 16px;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+.dropdown-item.text-danger:hover {
+    background-color: #f8d7da;
+}

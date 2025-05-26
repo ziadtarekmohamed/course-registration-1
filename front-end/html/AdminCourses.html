@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses Management - Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="../styles/AdminCourses.css" rel="stylesheet">
+    <!-- Debug Script -->
+    <script>
+        console.log('Debug - Admin Courses page loaded');
+        console.log('localStorage check on page load:');
+        console.log('token:', !!localStorage.getItem('token'));
+        console.log('userId:', localStorage.getItem('userId'));
+        console.log('userRole:', localStorage.getItem('userRole'));
+        console.log('All localStorage keys:', Object.keys(localStorage));
+        
+        // Check if we should be here
+        const debugToken = localStorage.getItem('token');
+        const userRole = localStorage.getItem('userRole');
+        if (!debugToken) {
+            console.error('No token found, redirecting to login');
+            window.location.href = 'Login.html';
+        } else if (userRole !== 'admin') {
+            console.error('User is not an admin, role found:', userRole);
+            window.location.href = 'Login.html';
+        }
+    </script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar p-4">
+        <h3 class="mb-4">SISadmin</h3>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="AdminDashboard.html">
+                    <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="AdminCourses.html">
+                    <i class="bi bi-book me-2"></i> Courses
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="AdminUsers.html">
+                    <i class="bi bi-people me-2"></i> Users
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="AdminRooms.html">
+                    <i class="bi bi-building me-2"></i> Rooms
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="AdminTimeSlots.html">
+                    <i class="bi bi-calendar-check me-2"></i> Time Slots
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="AdminCourseTree.html">
+                    <i class="bi bi-diagram-3 me-2"></i> Course Tree
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="AdminMajors.html">
+                    <i class="bi bi-mortarboard me-2"></i> Majors
+                </a>
+            </li>
+            <li class="nav-item mt-5">
+                <a class="nav-link logout-link" href="#" id="logoutBtn">
+                    <i class="bi bi-box-arrow-right me-2"></i> Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2>Courses Management</h2>
+                <p class="text-muted">Manage system courses and their information</p>
+            </div>
+            <div class="profile-container">
+                <span id="adminInitials" class="profile-avatar">A</span>
+            </div>
+        </div>
+
+        <!-- Courses Section -->
+        <div class="mt-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Courses</h5>
+                <button class="add-course-btn" data-bs-toggle="modal" data-bs-target="#courseModal">
+                    <span class="me-2">+</span>Add Course
+                </button>
+            </div>
+
+            <!-- Add/Edit Course Modal -->
+            <div class="modal fade" id="courseModal" tabindex="-1" aria-labelledby="courseModalLabel">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="courseModalLabel">Add Course</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <!-- Within the Add Course Modal body -->
+<div class="modal-body">
+    <form id="courseForm">
+        <div class="mb-3">
+            <label for="courseTitle" class="form-label">Title</label>
+            <input type="text" class="form-control" id="courseTitle" required>
+        </div>
+        <div class="mb-3">
+            <label for="courseDescription" class="form-label">Description</label>
+            <textarea class="form-control" id="courseDescription" rows="3" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="creditHours" class="form-label">Credit Hours</label>
+            <input type="number" class="form-control" id="creditHours" min="1" max="4" required>
+        </div>
+        <div class="mb-3">
+            <label for="department" class="form-label">Department</label>
+            <select class="form-control" id="department" required>
+                <option value="">Select Department</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="level" class="form-label">Level</label>
+            <select class="form-control" id="level" required>
+                <option value="">Select Level</option>
+                <option value="1">Level 1</option>
+                <option value="2">Level 2</option>
+                <option value="3">Level 3</option>
+                <option value="4">Level 4</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Semester</label>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="Fall" id="semesterFall">
+                <label class="form-check-label" for="semesterFall">Fall</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="Spring" id="semesterSpring">
+                <label class="form-check-label" for="semesterSpring">Spring</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="Summer" id="semesterSummer">
+                <label class="form-check-label" for="semesterSummer">Summer</label>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="prerequisitesSelect" class="form-label">Prerequisites</label>
+            <select class="form-control" id="prerequisitesSelect" multiple>
+                <option value="">Loading...</option>
+            </select>
+            <small class="form-text text-muted">Hold Ctrl (Cmd on Mac) to select multiple prerequisites.</small>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Save Course</button>
+    </form>
+</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Course Modal -->
+            <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">Edit Course</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <!-- Within the Edit Course Modal body -->
+<div class="modal-body">
+    <form id="editForm">
+        <div class="mb-3">
+            <label for="edit_courseTitle" class="form-label">Title</label>
+            <input type="text" class="form-control" id="edit_courseTitle" required>
+        </div>
+        <div class="mb-3">
+            <label for="edit_courseDescription" class="form-label">Description</label>
+            <textarea class="form-control" id="edit_courseDescription" rows="3" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="edit_creditHours" class="form-label">Credit Hours</label>
+            <input type="number" class="form-control" id="edit_creditHours" min="1" max="4" required>
+        </div>
+        <div class="mb-3">
+            <label for="edit_department" class="form-label">Department</label>
+            <select class="form-control" id="edit_department" required>
+                <option value="">Select Department</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="edit_level" class="form-label">Level</label>
+            <select class="form-control" id="edit_level" required>
+                <option value="">Select Level</option>
+                <option value="1">Level 1</option>
+                <option value="2">Level 2</option>
+                <option value="3">Level 3</option>
+                <option value="4">Level 4</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Semester</label>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="Fall" id="edit_semesterFall">
+                <label class="form-check-label" for="edit_semesterFall">Fall</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="Spring" id="edit_semesterSpring">
+                <label class="form-check-label" for="edit_semesterSpring">Spring</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="Summer" id="edit_semesterSummer">
+                <label class="form-check-label" for="edit_semesterSummer">Summer</label>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="edit_prerequisitesSelect" class="form-label">Prerequisites</label>
+            <select class="form-control" id="edit_prerequisitesSelect" multiple>
+                <option value="">Loading...</option>
+            </select>
+            <small class="form-text text-muted">Hold Ctrl (Cmd on Mac) to select multiple prerequisites.</small>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+    </form>
+</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Management Card -->
+            <div class="course-management-card">
+                <h5>Course Management</h5>
+                <p class="subtitle mb-4">Manage your courses, add new ones, or modify existing courses.</p>
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Course Code</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Credit Hours</th>
+                                <th>Department</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="courseTableBody">
+                            <!-- Courses will be dynamically populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../scripts/AdminCourses.js"></script>
+  <script src="../scripts/sweetalert-config.js"></script>
+</body>
+</html>
+

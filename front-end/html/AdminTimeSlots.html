@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Slots Management - Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../styles/AdminTimeSlots.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Debug Script -->
+    <script>
+        console.log('Debug - Admin Time Slots page loaded');
+        console.log('localStorage check on page load:');
+        console.log('token:', !!localStorage.getItem('token'));
+        console.log('userId:', localStorage.getItem('userId'));
+        console.log('userRole:', localStorage.getItem('userRole'));
+        console.log('All localStorage keys:', Object.keys(localStorage));
+        
+        // Check if we should be here
+        const debugToken = localStorage.getItem('token');
+        const userRole = localStorage.getItem('userRole');
+        if (!debugToken) {
+            console.error('No token found, redirecting to login');
+            window.location.href = 'Login.html';
+        } else if (userRole !== 'admin') {
+            console.error('User is not an admin, role found:', userRole);
+            window.location.href = 'Login.html';
+        }
+    </script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar p-4">
+        <h3 class="mb-4">SISadmin</h3>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="AdminDashboard.html">
+                    <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="AdminCourses.html">
+                    <i class="bi bi-book me-2"></i> Courses
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="AdminUsers.html">
+                    <i class="bi bi-people me-2"></i> Users
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="AdminRooms.html">
+                    <i class="bi bi-building me-2"></i> Rooms
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="AdminTimeSlots.html">
+                    <i class="bi bi-calendar-check me-2"></i> Time Slots
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="AdminCourseTree.html">
+                    <i class="bi bi-diagram-3 me-2"></i> Course Tree
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="AdminMajors.html">
+                    <i class="bi bi-mortarboard me-2"></i> Majors
+                </a>
+            </li>
+            <li class="nav-item mt-5">
+                <a class="nav-link logout-link" href="#" id="logoutBtn">
+                    <i class="bi bi-box-arrow-right me-2"></i> Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4>Admin Dashboard</h4>
+        </div>
+
+        <!-- Time Slots Section -->
+        <div class="mt-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Time Slots</h5>
+                <div>
+                    <button class="btn btn-outline-primary me-2" id="bulkAddBtn">
+                        <i class="bi bi-grid-3x3 me-1"></i> Bulk Add
+                    </button>
+                    <button class="add-slot-btn" data-bs-toggle="modal" data-bs-target="#timeSlotModal">
+                        <span class="me-2">+</span>Add Time Slot
+                    </button>
+                </div>
+            </div>
+
+            <!-- Add/Edit Time Slot Modal -->
+            <div class="modal fade" id="timeSlotModal" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add/Edit Time Slot</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="timeSlotForm" onsubmit="saveTimeSlot(event)">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="roomId" class="form-label">Room</label>
+                                            <select class="form-control" id="roomId" required>
+                                                <option value="">Select Room</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="type" class="form-label">Slot Type</label>
+                                            <select class="form-control" id="type" required>
+                                                <option value="Lecture">Lecture</option>
+                                                <option value="Lab">Lab</option>
+                                                <option value="Tutorial">Tutorial</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="day" class="form-label">Day</label>
+                                            <select class="form-control" id="day" required>
+                                                <option value="Monday">Monday</option>
+                                                <option value="Tuesday">Tuesday</option>
+                                                <option value="Wednesday">Wednesday</option>
+                                                <option value="Thursday">Thursday</option>
+                                                <option value="Friday">Friday</option>
+                                                <option value="Saturday">Saturday</option>
+                                                <option value="Sunday">Sunday</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="startTime" class="form-label">Start Time</label>
+                                            <input type="time" class="form-control" id="startTime" step="1" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="endTime" class="form-label">End Time</label>
+                                            <input type="time" class="form-control" id="endTime" step="1" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="duration" class="form-label">Duration <span class="text-muted">(calculated)</span></label>
+                                            <input type="text" class="form-control" id="duration" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="instructor" class="form-label">Instructor</label>
+                                            <select class="form-control" id="instructor">
+                                                <option value="">Select Instructor</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="courseId" class="form-label">Course</label>
+                                            <select class="form-control" id="courseId" required>
+                                                <option value="">Select Course</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bulk Add Time Slots Modal -->
+            <div class="modal fade" id="bulkAddModal" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Bulk Add Time Slots</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="bulkAddForm" onsubmit="saveBulkTimeSlots(event)">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="bulkCourseId" class="form-label">Course</label>
+                                            <select class="form-control" id="bulkCourseId" required>
+                                                <option value="">Select Course</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="bulkType" class="form-label">Slot Type</label>
+                                            <select class="form-control" id="bulkType" required>
+                                                <option value="Lecture">Lecture</option>
+                                                <option value="Lab">Lab</option>
+                                                <option value="Tutorial">Tutorial</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="bulkInstructor" class="form-label">Instructor</label>
+                                            <select class="form-control" id="bulkInstructor">
+                                                <option value="">Select Instructor</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="bulkRoomId" class="form-label">Room</label>
+                                            <select class="form-control" id="bulkRoomId" required>
+                                                <option value="">Select Room</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="time-grid-container mt-4">
+                                    <h6>Select Day and Time Combinations</h6>
+                                    <p class="text-muted small">Click and drag to select time slots</p>
+                                    <div class="time-grid" id="timeGrid">
+                                        <!-- Time grid will be generated by JavaScript -->
+                                    </div>
+                                </div>
+
+                                <div class="selected-slots-container mt-3">
+                                    <h6>Selected Slots:</h6>
+                                    <div id="selectedSlots" class="selected-slots">
+                                        <!-- Selected slots will appear here -->
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Save All Slots</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Time Slots View Switcher -->
+            <div class="view-switcher mt-4 mb-3">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-secondary active" id="tableViewBtn">
+                        <i class="bi bi-table me-2"></i>Table View
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" id="calendarViewBtn">
+                        <i class="bi bi-calendar-week me-2"></i>Calendar View
+                    </button>
+                </div>
+            </div>
+
+            <!-- Table View -->
+            <div id="tableView" class="time-slot-management-card">
+                <h5>Time Slot Management</h5>
+                <p class="subtitle mb-4">Manage available time slots for scheduling.</p>
+
+                <div class="filters mb-3">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <select class="form-select" id="filterDay">
+                                <option value="">All Days</option>
+                                <option value="Monday">Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="Wednesday">Wednesday</option>
+                                <option value="Thursday">Thursday</option>
+                                <option value="Friday">Friday</option>
+                                <option value="Saturday">Saturday</option>
+                                <option value="Sunday">Sunday</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="filterType">
+                                <option value="">All Types</option>
+                                <option value="Lecture">Lecture</option>
+                                <option value="Lab">Lab</option>
+                                <option value="Tutorial">Tutorial</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="filterCourse">
+                                <option value="">All Courses</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-outline-secondary w-100" id="clearFiltersBtn">
+                                <i class="bi bi-x-circle me-2"></i>Clear Filters
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Room</th>
+                                <th>Slot Type</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Day</th>
+                                <th>Instructor</th>
+                                <th>Course</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="timeSlotTableBody">
+                            <!-- Time Slots will be dynamically populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Calendar View -->
+            <div id="calendarView" class="time-slot-management-card" style="display:none">
+                <h5>Calendar View</h5>
+                <p class="subtitle mb-4">Visual representation of time slots.</p>
+                
+                <div class="calendar-nav mb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <select class="form-select w-auto" id="calendarFilterRoom">
+                            <option value="">All Rooms</option>
+                        </select>
+                        <div class="btn-group">
+                            <button class="btn btn-outline-secondary" id="prevWeekBtn">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                            <button class="btn btn-outline-secondary" id="currentWeekBtn">Current Week</button>
+                            <button class="btn btn-outline-secondary" id="nextWeekBtn">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <div class="time-label"></div>
+                        <div class="day-header">Monday</div>
+                        <div class="day-header">Tuesday</div>
+                        <div class="day-header">Wednesday</div>
+                        <div class="day-header">Thursday</div>
+                        <div class="day-header">Friday</div>
+                        <div class="day-header">Saturday</div>
+                        <div class="day-header">Sunday</div>
+                    </div>
+                    <div class="calendar-body" id="calendarBody">
+                        <!-- Calendar grid will be generated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../scripts/sweetalert-config.js" defer></script>
+    <script src="../scripts/AdminTimeSlots.js" defer></script>
+</body>
+</html>

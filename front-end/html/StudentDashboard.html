@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard</title>
+  <link rel="stylesheet" href="../styles/StudentRegistration.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Debug Script - Add to top -->
+  <script>
+    console.log('Debug - Dashboard page loaded');
+    console.log('localStorage check on page load:');
+    console.log('token:', !!localStorage.getItem('token'));
+    console.log('userId:', localStorage.getItem('userId'));
+    console.log('userRole:', localStorage.getItem('userRole'));
+    console.log('All localStorage keys:', Object.keys(localStorage));
+    
+    // Check if we should be here
+    const debugToken = localStorage.getItem('token');
+    const userRole = localStorage.getItem('userRole');
+    if (!debugToken) {
+      console.error('No token found, should redirect to login');
+    } else if (userRole !== 'student') {
+      console.error('User is not a student, role found:', userRole);
+    }
+  </script>
+  <style>
+    /* Additional dashboard styles */
+    .dashboard-section {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .dashboard-section h2 {
+      font-size: 1.4rem;
+      color: #333;
+      margin-top: 0;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .dashboard-section h2 i {
+      margin-right: 10px;
+      color: #5661b3;
+    }
+    
+    .student-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      background-color: #f8f9fa;
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+    
+    .student-meta span {
+      display: inline-block;
+      color: #6c757d;
+    }
+    
+    .student-meta span span {
+      color: #333;
+      font-weight: 500;
+      margin-left: 5px;
+    }
+    
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+    }
+    
+    @media (max-width: 768px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .progress-section {
+      margin-top: 20px;
+    }
+    
+    .progress-bar {
+      height: 8px;
+      background-color: #e9ecef;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 5px;
+    }
+    
+    .progress-bar-inner {
+      height: 100%;
+      background-color: #5661b3;
+      border-radius: 4px;
+    }
+    
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: #6c757d;
+    }
+    
+    .schedule-item {
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .schedule-item:last-child {
+      border-bottom: none;
+    }
+    
+    .schedule-time {
+      font-size: 0.85rem;
+      color: #6c757d;
+      margin-bottom: 5px;
+    }
+    
+    .schedule-course {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .schedule-location {
+      font-size: 0.85rem;
+      color: #6c757d;
+    }
+    
+    .notification-item {
+      display: flex;
+      align-items: flex-start;
+      padding: 12px;
+      border-left: 3px solid #ccc;
+      background-color: #f8f9fa;
+      margin-bottom: 10px;
+      border-radius: 0 4px 4px 0;
+    }
+    
+    .notification-item i {
+      margin-right: 10px;
+      font-size: 1.1rem;
+    }
+    
+    .notification-item.info {
+      border-left-color: #17a2b8;
+    }
+    
+    .notification-item.warning {
+      border-left-color: #ffc107;
+      background-color: #fff9e6;
+    }
+    
+    .notification-item.alert {
+      border-left-color: #dc3545;
+      background-color: #fdeeef;
+    }
+    
+    .notification-item.success {
+      border-left-color: #28a745;
+      background-color: #e7f7ee;
+    }
+    
+    .calendar-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .calendar-item:last-child {
+      border-bottom: none;
+    }
+    
+    .calendar-date {
+      background: #5661b3;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      margin-right: 15px;
+    }
+    
+    .calendar-date span {
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+    
+    .calendar-info {
+      flex: 1;
+    }
+    
+    .calendar-info h4 {
+      margin: 0 0 5px;
+      font-size: 1rem;
+    }
+    
+    .calendar-info p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #6c757d;
+    }
+    
+    .no-items {
+      color: #6c757d;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h1 class="logo">studentIS</h1>
+      <nav>
+        <ul>
+          <li><a href="StudentDashboard.html" class="active"><i class="bi bi-house-door-fill"></i> Dashboard</a></li>
+          <li><a href="StudentRegistration.html"><i class="bi bi-journal-plus"></i> Course Registration</a></li>
+          <li><a href="Schedule.html"><i class="bi bi-calendar-week"></i> Schedule</a></li>
+          <li>
+            <a class="logout-link" href="#" id="logoutBtn">
+              <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="header">
+        <h1>Welcome, <span id="studentName">Student Name</span>!</h1>
+        <div class="student-meta">
+          <span>ID: <span id="studentId">230100012</span></span>
+          <span>Major: <span id="studentMajor">Computer Science</span></span>
+          <span>Email: <span id="studentEmail">student@email.com</span></span>
+        </div>
+      </header>
+
+      <!-- Info Cards -->
+      <div class="info-cards">
+        <div class="info-card">
+          <h3>Total Courses</h3>
+          <p class="number" id="totalCourses">0</p>
+        </div>
+        <div class="info-card">
+          <h3>Credit Hours Remaining</h3>
+          <p class="number" id="creditHours">0</p>
+        </div>
+        <div class="info-card">
+          <h3>Current GPA</h3>
+          <p class="number" id="gpa">N/A</p>
+        </div>
+        <div class="info-card">
+          <h3>Current Semester</h3>
+          <p class="number" id="currentSemester">Spring 2024</p>
+        </div>
+      </div>
+
+      <!-- Dashboard Grid -->
+      <div class="dashboard-grid">
+        <!-- Left Column -->
+        <div class="dashboard-left">
+          <!-- Degree Progress -->
+          <section class="dashboard-section">
+            <h2><i class="bi bi-bar-chart-line"></i> Degree Progress</h2>
+            <p>Your academic journey is on track. Keep up the good work!</p>
+            
+            <div class="progress-section">
+              <div class="progress-bar">
+                <div class="progress-bar-inner" style="width: 65%"></div>
+              </div>
+              <div class="progress-label">
+                <span>65% Complete</span>
+                <span>78/120 Credits</span>
+              </div>
+            </div>
+          </section>
+          
+          <!-- Upcoming Schedule -->
+          <section class="dashboard-section">
+            <h2><i class="bi bi-calendar-check"></i> Upcoming Schedule</h2>
+            <ul id="upcomingSchedule">
+              <li class="no-items">Loading your schedule...</li>
+            </ul>
+          </section>
+        </div>
+        
+        <!-- Right Column -->
+        <div class="dashboard-right">
+          <!-- Notifications -->
+          <section class="dashboard-section">
+            <h2><i class="bi bi-bell"></i> Notifications</h2>
+            <ul id="notifications">
+              <li class="no-items">Loading notifications...</li>
+            </ul>
+          </section>
+          
+          <!-- Academic Calendar -->
+          <section class="dashboard-section">
+            <h2><i class="bi bi-calendar"></i> Academic Calendar</h2>
+            <ul class="calendar-list">
+              <li class="calendar-item">
+                <div class="calendar-date">
+                  MAY<span>15</span>
+                </div>
+                <div class="calendar-info">
+                  <h4>Final Exam Week</h4>
+                  <p>Prepare for final exams</p>
+                </div>
+              </li>
+              <li class="calendar-item">
+                <div class="calendar-date">
+                  MAY<span>30</span>
+                </div>
+                <div class="calendar-info">
+                  <h4>End of Semester</h4>
+                  <p>Last day of classes</p>
+                </div>
+              </li>
+              <li class="calendar-item">
+                <div class="calendar-date">
+                  JUN<span>5</span>
+                </div>
+                <div class="calendar-info">
+                  <h4>Grades Due</h4>
+                  <p>Final grades will be posted</p>
+                </div>
+              </li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="../scripts/studentDashboard.js"></script>
+  <script src="../scripts/sweetalert-config.js"></script>
+</body>
+</html> 

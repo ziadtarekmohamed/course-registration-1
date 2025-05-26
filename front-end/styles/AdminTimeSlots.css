@@ -1,0 +1,359 @@
+.sidebar {
+    background-color: #373B47;
+    color: white;
+    height: 100vh;
+    position: fixed;
+    width: 250px;
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+.nav-link {
+    color: #ffffff80;
+    padding: 8px 16px;
+    margin: 4px 0;
+}
+
+.nav-link:hover {
+    color: white;
+}
+
+.nav-link.active {
+    color: white !important;
+    background-color: transparent !important;
+}
+
+.time-slot-management-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding: 24px;
+    margin-top: 24px;
+}
+
+.add-slot-btn {
+    background-color: #373B47;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+}
+
+.add-slot-btn:hover {
+    background-color: #4a4f5e;
+    color: white;
+}
+
+.table th {
+    color: #6c757d;
+    font-weight: normal;
+    border-bottom-width: 1px;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.subtitle {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.time-slot-form {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding: 24px;
+    margin-top: 24px;
+}
+
+.btn-primary {
+    background-color: #373B47;
+    border-color: #373B47;
+}
+
+.btn-primary:hover {
+    background-color: #4a4f5e;
+    border-color: #4a4f5e;
+}
+
+.modal-content {
+    border-radius: 12px;
+    border: none;
+}
+
+.modal-header {
+    border-bottom: 1px solid #e9ecef;
+    padding: 16px 24px;
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.form-control:focus {
+    border-color: #373B47;
+    box-shadow: 0 0 0 0.25rem rgba(55, 59, 71, 0.25);
+}
+
+.form-select:focus {
+    border-color: #373B47;
+    box-shadow: 0 0 0 0.25rem rgba(55, 59, 71, 0.25);
+}
+
+/* Dropdown styling */
+.dropdown-menu {
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border: none;
+    padding: 8px 0;
+}
+
+.dropdown-item {
+    padding: 8px 16px;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+.dropdown-item.text-danger:hover {
+    background-color: #f8d7da;
+}
+
+/* Time input styling */
+input[type="time"] {
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+input[type="time"]:focus {
+    border-color: #373B47;
+    box-shadow: 0 0 0 0.25rem rgba(55, 59, 71, 0.25);
+}
+
+/* Time Grid for Bulk Adding */
+.time-grid-container {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+.time-grid {
+    display: grid;
+    grid-template-columns: 80px repeat(7, 1fr);
+    gap: 1px;
+    background-color: #dee2e6;
+    border: 1px solid #dee2e6;
+}
+
+.time-grid-header {
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 8px;
+    font-weight: 500;
+}
+
+.time-label {
+    background-color: #f8f9fa;
+    text-align: right;
+    padding: 8px;
+    border-right: 1px solid #dee2e6;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.time-cell {
+    background-color: white;
+    height: 30px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.time-cell:hover {
+    background-color: #f0f0f0;
+}
+
+.time-cell.selected {
+    background-color: #dbeafe;
+    border: 1px solid #93c5fd;
+}
+
+.time-cell.occupied {
+    background-color: #fee2e2;
+    cursor: not-allowed;
+}
+
+.selected-slots {
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 8px;
+    background-color: #ffffff;
+}
+
+.selected-slot-item {
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    padding: 6px 12px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.selected-slot-item:last-child {
+    margin-bottom: 0;
+}
+
+.remove-slot {
+    color: #dc3545;
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 0.9rem;
+}
+
+/* Calendar View */
+.calendar-container {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #dee2e6;
+}
+
+.calendar-header {
+    display: grid;
+    grid-template-columns: 80px repeat(7, 1fr);
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.day-header {
+    padding: 10px;
+    text-align: center;
+    font-weight: 500;
+    border-right: 1px solid #dee2e6;
+}
+
+.day-header:last-child {
+    border-right: none;
+}
+
+.calendar-body {
+    display: grid;
+    grid-template-columns: 80px repeat(7, 1fr);
+    grid-auto-rows: 40px;
+}
+
+.hour-marker {
+    grid-column: 1;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.time-block {
+    background-color: rgba(55, 59, 71, 0.8);
+    color: white;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    margin: 2px;
+    overflow: hidden;
+    position: absolute;
+    z-index: 10;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.time-block:hover {
+    background-color: #373B47;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 20;
+}
+
+.time-block.lecture {
+    background-color: #4a69bd;
+}
+
+.time-block.lab {
+    background-color: #6a89cc;
+}
+
+.time-block.tutorial {
+    background-color: #82ccdd;
+    color: #333;
+}
+
+.time-cell-container {
+    position: relative;
+    border-right: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.time-cell-container:nth-child(8n+1) {
+    border-right: none;
+}
+
+.calendar-grid-cell {
+    border-right: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
+    background-color: white;
+}
+
+.calendar-grid-cell:hover {
+    background-color: #f8f9fa;
+}
+
+/* View Switcher */
+.view-switcher .btn-group .btn.active {
+    background-color: #373B47;
+    color: white;
+    border-color: #373B47;
+}
+
+/* Filters Section */
+.filters {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+/* Bulk add button */
+#bulkAddBtn {
+    border-color: #373B47;
+    color: #373B47;
+}
+
+#bulkAddBtn:hover {
+    background-color: #373B47;
+    color: white;
+}
+
+/* Duration field styling */
+#duration {
+    color: #6c757d;
+    background-color: #f8f9fa;
+}

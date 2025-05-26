@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Registration</title>
+  <link rel="stylesheet" href="../styles/StudentRegistration.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- SweetAlert2 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Debug Script -->
+  <script>
+    console.log('Debug - Registration page loaded');
+    console.log('localStorage check on page load:');
+    console.log('token:', !!localStorage.getItem('token'));
+    console.log('userId:', localStorage.getItem('userId'));
+    console.log('userRole:', localStorage.getItem('userRole'));
+    console.log('All localStorage keys:', Object.keys(localStorage));
+    
+    // Check if we should be here
+    const debugToken = localStorage.getItem('token');
+    const userRole = localStorage.getItem('userRole');
+    if (!debugToken) {
+      console.error('No token found, should redirect to login');
+      window.location.href = 'Login.html';
+    } else if (userRole !== 'student') {
+      console.error('User is not a student, role found:', userRole);
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h1 class="logo">studentIS</h1>
+      <nav>
+        <ul>
+          <li><a href="StudentDashboard.html"><i class="bi bi-house-door-fill"></i> Dashboard</a></li>
+          <li><a href="StudentRegistration.html" class="active"><i class="bi bi-journal-plus"></i> Course Registration</a></li>
+          <li><a href="Schedule.html"><i class="bi bi-calendar-week"></i> Schedule</a></li>
+          <li>
+            <a class="logout-link" href="#" id="logoutBtn">
+              <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="header">
+        <h1>Course Registration</h1>
+        <div class="search-bar">
+          <input type="search" placeholder="Search courses...">
+        </div>
+      </header>
+
+      <!-- Info Cards -->
+      <div class="info-cards">
+        <div class="info-card">
+          <h3>Registered Courses</h3>
+          <p class="number">0</p>
+        </div>
+        <div class="info-card">
+          <h3>Credit Hours Available</h3>
+          <p class="number">0</p>
+        </div>
+        <div class="info-card">
+          <h3>Current GPA</h3>
+          <p class="number">N/A</p>
+        </div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="filter-tabs">
+        <button class="tab active">All Courses</button>
+        <button class="tab">Registered</button>
+        <button class="tab">Available</button>
+      </div>
+
+      <!-- Course Grid -->
+      <div class="course-grid">
+        <!-- Course cards will be dynamically loaded here by JS -->
+        <div class="loading-indicator">Loading courses...</div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Time Slot Modal - Simplified Version -->
+  <div id="timeSlotModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Select Time Slots for <span id="courseCodeDisplay"></span></h2>
+        <span class="close" onclick="closeModal()">&times;</span>
+      </div>
+      
+      <div class="modal-body">
+        <!-- Course Info Summary -->
+        <div class="course-summary" id="courseSummary"></div>
+        
+        <!-- Tabs for each type of slot -->
+        <div class="tab-container">
+          <div class="tab-nav">
+            <button class="tab-btn active" data-tab="lecture">
+              <i class="bi bi-people"></i> Lecture
+              <span class="tab-badge" id="lectureBadge">0</span>
+            </button>
+            <button class="tab-btn" data-tab="lab">
+              <i class="bi bi-laptop"></i> Lab
+              <span class="tab-badge" id="labBadge">0</span>
+            </button>
+            <button class="tab-btn" data-tab="tutorial">
+              <i class="bi bi-person-workspace"></i> Tutorial
+              <span class="tab-badge" id="tutorialBadge">0</span>
+            </button>
+          </div>
+          
+          <div class="tab-content">
+            <div class="tab-pane active" id="lecture">
+              <div class="loading-indicator">Loading lecture time slots...</div>
+            </div>
+            <div class="tab-pane" id="lab">
+              <div class="loading-indicator">Loading lab time slots...</div>
+            </div>
+            <div class="tab-pane" id="tutorial">
+              <div class="loading-indicator">Loading tutorial time slots...</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Selected Time Slots Summary -->
+        <div class="selected-summary">
+          <h3>Selected Time Slots</h3>
+          <div id="selectedSummary" class="selected-slots-list">
+            <p class="no-selection-message">No time slots selected yet</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="btn-submit" id="saveSlotBtn">Save Selections & Register</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../scripts/sweetalert-config.js" defer></script>
+  <script src="../scripts/studentRegistration.js" defer></script>
+</body>
+</html> 

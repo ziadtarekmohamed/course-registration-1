@@ -1,0 +1,659 @@
+/* Reset and Base Styles - Same as StudentRegistration.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #f5f5f5;
+}
+
+/* Layout */
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Styles - Same as StudentRegistration.css */
+.sidebar {
+    width: 250px;
+    background-color: #2f3542;
+    color: white;
+    padding: 2rem;
+}
+
+.logo {
+    font-size: 1.8rem;
+    margin-bottom: 3rem;
+}
+
+.sidebar nav ul {
+    list-style: none;
+}
+
+.sidebar nav a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 0.8rem 0;
+    font-size: 1rem;
+}
+
+.sidebar nav a.active {
+    font-weight: bold;
+}
+
+/* Main Content Styles */
+.main-content {
+    flex: 1;
+    padding: 2rem;
+    background-color: white;
+}
+
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.header h1 {
+    font-size: 1.8rem;
+    color: #2f3542;
+}
+
+.semester-selector select {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    width: 200px;
+}
+
+/* Info Cards Styles - Same as StudentRegistration.css */
+.info-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.info-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.info-card h3 {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.info-card .number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2f3542;
+}
+
+/* Filter Tabs Styles - Same as StudentRegistration.css */
+.filter-tabs {
+    margin-bottom: 2rem;
+}
+
+.tab {
+    padding: 0.5rem 1rem;
+    margin-right: 1rem;
+    border: none;
+    background: none;
+    font-size: 0.9rem;
+    color: #666;
+    cursor: pointer;
+}
+
+.tab.active {
+    color: #2f3542;
+    font-weight: bold;
+    position: relative;
+}
+
+.tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #2f3542;
+}
+
+/* Schedule Table Styles - Enhanced */
+.schedule-container {
+    overflow-x: auto;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    background-color: white;
+}
+
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    border: none;
+}
+
+.schedule-table th {
+    background-color: #f8f9fa;
+    padding: 12px;
+    text-align: center;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 1px solid #e9ecef;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.schedule-table th.time-header {
+    width: 80px;
+    background-color: #f1f3f5;
+    text-align: left;
+    padding-left: 15px;
+}
+
+.schedule-table td {
+    border: none;
+    height: 90px;
+    vertical-align: top;
+    padding: 0;
+    width: calc((100% - 80px) / 5);
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.schedule-table td.time-cell {
+    padding: 10px 15px;
+    text-align: left;
+    color: #666;
+    font-size: 0.85rem;
+    width: 80px;
+    vertical-align: top;
+    background-color: #f8f9fa;
+    border-right: 1px solid #e9ecef;
+    position: sticky;
+    left: 0;
+    z-index: 5;
+    font-weight: 500;
+}
+
+/* Course Slot Styles - Enhanced */
+.course-slot {
+    padding: 8px 12px;
+    position: relative;
+    height: 100%;
+    vertical-align: top;
+    transition: all 0.2s ease;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: 2px;
+}
+
+.course-slot.lecture {
+    background-color: rgba(74, 105, 189, 0.08);
+}
+
+.course-slot.lab {
+    background-color: rgba(255, 107, 107, 0.08);
+}
+
+.course-slot.tutorial {
+    background-color: rgba(46, 213, 115, 0.08);
+}
+
+.course-slot:hover {
+    transform: scale(1.02);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    z-index: 15;
+}
+
+.course-details {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+}
+
+.course-details h3 {
+    margin: 5px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.course-id {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.course-time {
+    color: #555;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.course-location, .course-instructor {
+    color: #777;
+    font-size: 11px;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.course-type-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 11px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.course-slot.lecture .course-type-badge {
+    color: #3c5ea9;
+}
+
+.course-slot.lab .course-type-badge {
+    color: #c0392b;
+}
+
+.course-slot.tutorial .course-type-badge {
+    color: #27ae60;
+}
+
+/* List View Styles */
+.course-list-view {
+    background-color: white;
+}
+
+.course-list-item {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.course-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.course-list-header h3 {
+    font-size: 1.2rem;
+    color: #2f3542;
+}
+
+.credit-hours {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: bold;
+}
+
+.course-list-slots {
+    margin-bottom: 1rem;
+}
+
+.slot-item {
+    display: grid;
+    grid-template-columns: 100px 2fr 1fr 1fr;
+    gap: 1rem;
+    padding: 0.8rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+
+.slot-item.lecture {
+    background-color: rgba(92, 175, 252, 0.1);
+    border-left: 4px solid #5caffc;
+}
+
+.slot-item.lab {
+    background-color: rgba(255, 110, 84, 0.1);
+    border-left: 4px solid #ff6e54;
+}
+
+.slot-item.tutorial {
+    background-color: rgba(112, 218, 112, 0.1);
+    border-left: 4px solid #70da70;
+}
+
+.slot-type {
+    font-weight: bold;
+    color: #2f3542;
+}
+
+.slot-time, .slot-instructor, .slot-location {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.remove-btn {
+    background-color: #ff3b30;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.8rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    width: 100%;
+}
+
+.remove-btn:hover {
+    background-color: #ff4f45;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .schedule-table {
+        min-width: 900px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        padding: 1rem;
+    }
+    
+    .logo {
+        margin-bottom: 1rem;
+    }
+    
+    .sidebar nav ul {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .sidebar nav a {
+        padding: 0.5rem 1rem;
+    }
+    
+    .info-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .slot-item {
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+    }
+}
+
+/* Add styles for loading indicator */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #2f3542;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+.loading-message {
+    font-size: 18px;
+    color: #2f3542;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Empty Schedule Message - Enhanced */
+.empty-schedule {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin: 20px 0;
+    border: 1px dashed #ced4da;
+    color: #6c757d;
+}
+
+.empty-schedule i {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 20px;
+    color: #adb5bd;
+}
+
+.empty-schedule p {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.empty-schedule .btn-primary {
+    background-color: #4a69bd;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 15px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.empty-schedule .btn-primary:hover {
+    background-color: #3f5ca8;
+}
+
+/* Quick Filters */
+.quick-filters {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 12px 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.filter-label {
+    font-weight: 500;
+    color: #666;
+    margin-right: 15px;
+}
+
+.filter-btn {
+    background: none;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #555;
+    transition: all 0.2s;
+}
+
+.filter-btn.active {
+    background-color: #4a69bd;
+    color: white;
+    font-weight: 500;
+}
+
+.filter-btn:hover:not(.active) {
+    background-color: #f0f0f0;
+}
+
+/* Course Modal Styles */
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.modal-container.active {
+    opacity: 1;
+}
+
+.course-modal {
+    width: 90%;
+    max-width: 450px;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(20px);
+    transition: transform 0.3s;
+}
+
+.modal-container.active .course-modal {
+    transform: translateY(0);
+}
+
+.modal-header {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-lecture .modal-header {
+    background-color: rgba(74, 105, 189, 0.1);
+    border-bottom: 4px solid #4a69bd;
+}
+
+.modal-lab .modal-header {
+    background-color: rgba(255, 107, 107, 0.1);
+    border-bottom: 4px solid #ff6b6b;
+}
+
+.modal-tutorial .modal-header {
+    background-color: rgba(46, 213, 115, 0.1);
+    border-bottom: 4px solid #2ed573;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #333;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-info-group {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.modal-label {
+    font-weight: 500;
+    color: #555;
+    width: 100px;
+    flex-shrink: 0;
+}
+
+.modal-value {
+    flex: 1;
+    color: #333;
+}
+
+.modal-footer {
+    padding: 15px 20px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal-btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    background: none;
+    border: 1px solid #ddd;
+    color: #555;
+    transition: all 0.2s;
+}
+
+.modal-btn.btn-primary {
+    background-color: #4a69bd;
+    color: white;
+    border: none;
+}
+
+.modal-btn.btn-primary:hover {
+    background-color: #3f5ca8;
+}
+
+/* Responsive styles for quick filters */
+@media (max-width: 768px) {
+    .quick-filters {
+        flex-wrap: wrap;
+    }
+    
+    .filter-label {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}

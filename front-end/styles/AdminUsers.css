@@ -1,0 +1,224 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 250px;
+    background-color: #373B47;
+    color: white;
+    z-index: 1000;
+}
+
+.sidebar h3 {
+    color: white;
+    font-weight: 600;
+}
+
+.sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    padding: 0.5rem 1rem;
+    margin: 0.2rem 0;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.sidebar .nav-link:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar .nav-link.active {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.sidebar .logout-link {
+    color: #ff6b6b;
+}
+
+.sidebar .logout-link:hover {
+    background-color: rgba(255, 107, 107, 0.1);
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.profile-container {
+    display: flex;
+    align-items: center;
+}
+
+.profile-avatar {
+    width: 40px;
+    height: 40px;
+    background-color: #373B47;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.user-management-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 1rem;
+}
+
+.add-user-btn {
+    background-color: #373B47;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.add-user-btn:hover {
+    background-color: #2c2f3a;
+    color: white;
+}
+
+.table {
+    margin-top: 1rem;
+}
+
+.table th {
+    font-weight: 600;
+    color: #373B47;
+}
+
+.modal-content {
+    border-radius: 10px;
+}
+
+.modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #373B47;
+}
+
+.form-control:focus {
+    border-color: #373B47;
+    box-shadow: 0 0 0 0.2rem rgba(55, 59, 71, 0.25);
+}
+
+.nav-tabs .nav-link {
+    color: #6c757d;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin-right: 0.5rem;
+}
+
+.nav-tabs .nav-link.active {
+    color: #373B47;
+    border-bottom: 2px solid #373B47;
+    background: none;
+}
+
+.dropdown-menu {
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+.dropdown-item.text-danger:hover {
+    background-color: #fff5f5;
+}
+
+.table th {
+    color: #6c757d;
+    font-weight: normal;
+    border-bottom-width: 1px;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.subtitle {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.status-active {
+    color: #198754;
+    background-color: #19875420;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.875rem;
+}
+
+.status-inactive {
+    color: #dc3545;
+    background-color: #dc354520;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.875rem;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.user-form {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding: 24px;
+    margin-top: 24px;
+}
+
+.user-form form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.user-form .form-label {
+    font-weight: bold;
+}
+
+.user-form .form-control {
+    margin-bottom: 15px;
+}
+
+.user-form button[type="submit"] {
+    width: 100%;
+    background-color: #373B47;
+    border-color: #373B47;
+}
+
+.btn-primary {
+    background-color: #373B47;
+    border-color: #373B47;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #828aa3;
+    border-color: #828aa3;
+    cursor: pointer;
+}
+
+.btn-link {
+    text-decoration: none;
+    font-weight: bold;
+    color: #373B47;
+}

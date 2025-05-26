@@ -1,0 +1,72 @@
+.sidebar {
+    background-color: #373B47;
+    color: white;
+    height: 100vh;
+    position: fixed;
+    width: 250px;
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+.nav-link {
+    color: #ffffff80;
+}
+
+.nav-link.active {
+    color: white !important;
+    background-color: transparent !important;
+}
+
+.search-box {
+    border: none;
+    background-color: #f5f5f5;
+    padding: 8px 15px;
+    border-radius: 6px;
+    width: 200px;
+}
+
+.info-card {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.course-card {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.filter-tabs .btn {
+    color: #6c757d;
+    background-color: transparent;
+    border: none;
+    padding: 8px 16px;
+}
+
+.filter-tabs .btn.active {
+    background-color: #f0f0f0;
+    border-radius: 20px;
+}
+
+.register-btn {
+    background-color: #373B47;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 0;
+    width: 100%;
+}
+
+.drop-btn {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 0;
+    width: 100%;
+}
