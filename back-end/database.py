@@ -10,7 +10,7 @@ from datetime import datetime
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-MONGO_DETAILS = "mongodb+srv://HamsKhaled:YOXMvSlr7J7b5vED@courseregistration.doq7m.mongodb.net/"
+MONGO_DETAILS = "mongo_cluster_link"  #mongodb link
 
 client = AsyncIOMotorClient(MONGO_DETAILS)
 database = client.Course_Registration
